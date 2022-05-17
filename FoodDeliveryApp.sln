@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuQL", "MenuQL\MenuQL.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderQL", "OrderQL\OrderQL.csproj", "{7B2F590D-DB18-4D5E-A74A-58B57EFD048C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B7CD8650-4ADC-4F0F-8A26-03F48B3C3266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7B2F590D-DB18-4D5E-A74A-58B57EFD048C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B2F590D-DB18-4D5E-A74A-58B57EFD048C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B2F590D-DB18-4D5E-A74A-58B57EFD048C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7CD8650-4ADC-4F0F-8A26-03F48B3C3266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7CD8650-4ADC-4F0F-8A26-03F48B3C3266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7CD8650-4ADC-4F0F-8A26-03F48B3C3266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CD8650-4ADC-4F0F-8A26-03F48B3C3266}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
