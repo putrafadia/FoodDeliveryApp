@@ -1,2 +1,2 @@
 # FoodDeliveryApp
-Tugas Individu
+Tugas Individu ok
