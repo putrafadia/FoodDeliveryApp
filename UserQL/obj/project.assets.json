@@ -3555,11 +3555,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\UserQL\\UserQL.csproj",
+      "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\UserQL\\UserQL.csproj",
       "projectName": "UserQL",
-      "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\UserQL\\UserQL.csproj",
+      "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\UserQL\\UserQL.csproj",
       "packagesPath": "C:\\Users\\ahmad saputra\\.nuget\\packages\\",
-      "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\UserQL\\obj\\",
+      "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\UserQL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ahmad saputra\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3576,8 +3576,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\Models\\Models.csproj": {
-              "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\Models\\Models.csproj"
+            "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj": {
+              "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj"
             }
           }
         }

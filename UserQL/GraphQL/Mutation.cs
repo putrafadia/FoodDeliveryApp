@@ -12,8 +12,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Models.Models;
-
-
+using Microsoft.EntityFrameworkCore;
 
 namespace UserQL.GraphQL
 {
@@ -117,7 +116,6 @@ namespace UserQL.GraphQL
                     context.Users.Update(user);
                     await context.SaveChangesAsync();
                     return await Task.FromResult(new User { Password = "Berhasil di ganti" });
-
                 }
                 else
                 {
@@ -127,6 +125,21 @@ namespace UserQL.GraphQL
 
             return await Task.FromResult(user);
 
+        }
+
+        //Delete user
+        [Authorize(Roles = new[] { "ADMIN" })]
+        public async Task<User> DeleteUserByIdAsync(
+        int id,
+        [Service] FoodDeliveryDBContext context)
+        {
+            var user = context.Users.Where(o => o.Id == id).FirstOrDefault();
+            if (user != null)
+            {
+                context.Users.Remove(user);
+                await context.SaveChangesAsync();
+            }
+            return await Task.FromResult(user);
         }
 
     }
