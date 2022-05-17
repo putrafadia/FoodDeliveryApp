@@ -21,18 +21,56 @@ namespace UserQL.GraphQL
             {
                 if (adminRole.Value == "ADMIN")
                 {
-                    return context.Users.Select(p => new UserData()
+                    return context.Users.Include(o => o.UserRoles).ThenInclude(r => r.Role).Select(p => new UserData()
                     {
                         Id = p.Id,
                         FullName = p.FullName,
                         Email = p.Email,
-                        Username = p.Username
+                        Username = p.Username,
+                        UserRoles = p.UserRoles
                     });
                 }
             }
 
             return new List<UserData>().AsQueryable();
         }
-        
+
+        [Authorize]
+        public IQueryable<UserRole> GetCouriers([Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
+        {
+            var adminRole = claimsPrincipal.Claims.Where(o => o.Type == ClaimTypes.Role).FirstOrDefault();
+            var users = context.UserRoles.Include(u=>u.User).Where(o=>o.RoleId == 2);
+            if (users != null)
+            {
+                if (adminRole.Value == "MANAGER")
+                {
+                    return users;
+                }
+            }
+
+            return new List<UserRole>().AsQueryable();
+        }
+
+        [Authorize]
+        public IQueryable<Profile> GetProfiles([Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
+        {
+            var userName = claimsPrincipal.Identity.Name;
+
+            // check admin role ?
+            var adminRole = claimsPrincipal.Claims.Where(o => o.Type == ClaimTypes.Role).FirstOrDefault();
+            var user = context.Users.Where(o => o.Username == userName).FirstOrDefault();
+            if (user != null)
+            {
+                if (adminRole.Value == "ADMIN")
+                {
+                    return context.Profiles;
+                }
+                var profiles = context.Profiles.Where(o => o.UserId == user.Id);
+                return profiles.AsQueryable();
+            }
+
+            return new List<Profile>().AsQueryable();
+        }
+
     }
 }

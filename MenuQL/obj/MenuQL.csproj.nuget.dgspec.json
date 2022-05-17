@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj": {}
+    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj": {}
   },
   "projects": {
-    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj": {
+    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj",
+        "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj",
         "projectName": "MenuQL",
-        "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj",
+        "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\MenuQL\\MenuQL.csproj",
         "packagesPath": "C:\\Users\\ahmad saputra\\.nuget\\packages\\",
-        "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\MenuQL\\obj\\",
+        "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\MenuQL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ahmad saputra\\AppData\\Roaming\\NuGet\\NuGet.Config",

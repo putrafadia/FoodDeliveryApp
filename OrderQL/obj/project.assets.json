@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
+      "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
       "projectName": "OrderQL",
-      "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
+      "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
       "packagesPath": "C:\\Users\\ahmad saputra\\.nuget\\packages\\",
-      "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\OrderQL\\obj\\",
+      "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ahmad saputra\\AppData\\Roaming\\NuGet\\NuGet.Config",
