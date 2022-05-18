@@ -14,13 +14,14 @@ namespace MenuQL.GraphQL
         [Authorize]
         public IQueryable<Menu> GetMenus([Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
         {
+            var userName = claimsPrincipal.Identity.Name;
             var adminRole = claimsPrincipal.Claims.Where(o => o.Type == ClaimTypes.Role).FirstOrDefault();
-            var menu = context.Menus;
-            if (menu != null)
+            var user = context.Users.Where(o => o.Username == userName).FirstOrDefault();
+            if (user != null)
             {
                 if (adminRole.Value == "MANAGER" || adminRole.Value == "BUYER")
                 {
-                    return menu;
+                    return context.Menus;
                 }
             }
             return new List<Menu>().AsQueryable();

@@ -4,14 +4,14 @@
     "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj": {}
   },
   "projects": {
-    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj": {
+    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
-        "projectName": "OrderQL",
-        "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
+        "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj",
+        "projectName": "Models",
+        "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj",
         "packagesPath": "C:\\Users\\ahmad saputra\\.nuget\\packages\\",
-        "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\obj\\",
+        "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ahmad saputra\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,148 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.14.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
+        "projectName": "OrderQL",
+        "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\OrderQL.csproj",
+        "packagesPath": "C:\\Users\\ahmad saputra\\.nuget\\packages\\",
+        "outputPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\OrderQL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ahmad saputra\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj": {
+                "projectPath": "E:\\belajar\\bootcamp\\final\\FoodDeliveryApp\\FoodDeliveryApp\\Models\\Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Confluent.Kafka": {
+              "target": "Package",
+              "version": "[1.8.2, )"
+            },
+            "HotChocolate.AspNetCore": {
+              "target": "Package",
+              "version": "[12.9.0, )"
+            },
+            "HotChocolate.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[12.9.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.14.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.17.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

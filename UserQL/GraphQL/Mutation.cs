@@ -109,9 +109,6 @@ namespace UserQL.GraphQL
                 if (valid)
                 {
                     user.Password = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
-                    //user.Username = user.Username;
-                    //user.FullName = user.FullName;
-                    //user.Email = user.Email;
 
                     context.Users.Update(user);
                     await context.SaveChangesAsync();
@@ -143,6 +140,7 @@ namespace UserQL.GraphQL
         }
 
         //Add User Role
+        [Authorize(Roles = new[] { "ADMIN" })]
         public async Task<UserRole> AddUserRoleAsync(
           InputUserRole input,
           [Service] FoodDeliveryDBContext context)
@@ -153,6 +151,24 @@ namespace UserQL.GraphQL
                 RoleId = input.RoleId,
             };
             var ret = context.UserRoles.Add(userRole);
+            await context.SaveChangesAsync();
+
+            return ret.Entity;
+        }
+
+        //Add Data Couriers
+        [Authorize(Roles = new[] { "MANAGER" })]
+        public async Task<Courier> AddCourierAsync(
+          InputCourier input,
+          [Service] FoodDeliveryDBContext context)
+        {
+            var courier = new Courier
+            {
+                CourierName = input.CourierName,
+                PhoneNumber = input.PhoneNumber,
+                UserId = input.UserId,
+            };
+            var ret = context.Couriers.Add(courier);
             await context.SaveChangesAsync();
 
             return ret.Entity;
@@ -201,7 +217,7 @@ namespace UserQL.GraphQL
         }
 
         //Delete Profile
-        public async Task<Profile> DeleteProductByIdAsync(
+        public async Task<Profile> DeleteProfileByIdAsync(
             int id,
             [Service] FoodDeliveryDBContext context)
         {
