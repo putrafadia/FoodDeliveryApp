@@ -10,8 +10,7 @@ using Models.Models;
 namespace UserQL.GraphQL
 {
     public class Query
-    {
-       
+    { 
         [Authorize]
         public IQueryable<UserData> GetUsers([Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
         {

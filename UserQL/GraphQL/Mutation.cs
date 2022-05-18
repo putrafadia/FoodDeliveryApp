@@ -142,6 +142,78 @@ namespace UserQL.GraphQL
             return await Task.FromResult(user);
         }
 
+        //Add User Role
+        public async Task<UserRole> AddUserRoleAsync(
+          InputUserRole input,
+          [Service] FoodDeliveryDBContext context)
+        {
+            var userRole = new UserRole
+            {
+                UserId = input.UserId,
+                RoleId = input.RoleId,
+            };
+            var ret = context.UserRoles.Add(userRole);
+            await context.SaveChangesAsync();
 
+            return ret.Entity;
+        }
+
+
+        //PROFILE
+        //Add Profile
+        public async Task<Profile> AddProfileAsync(
+           InputProfile input,
+           [Service] FoodDeliveryDBContext context)
+        {
+            var profile = new Profile
+            {
+                UserId = input.UserId,
+                Name = input.Name,
+                Address = input.Address,
+                City = input.City,
+                Phone = input.Phone,               
+            };
+            var ret = context.Profiles.Add(profile);
+            await context.SaveChangesAsync();
+
+            return ret.Entity;
+        }
+
+        //Update Profile
+        public async Task<Profile> UpdateProfileAsync(
+            InputProfile input,
+            [Service] FoodDeliveryDBContext context)
+        {
+            var profile = context.Profiles.Where(o => o.Id == input.Id).FirstOrDefault();
+            if (profile != null)
+            {
+                profile.Name = input.Name;
+                profile.Address = input.Address;
+                profile.City = input.City;
+                profile.Phone = input.Phone;
+
+                context.Profiles.Update(profile);
+                await context.SaveChangesAsync();
+            }
+
+
+            return await Task.FromResult(profile);
+        }
+
+        //Delete Profile
+        public async Task<Profile> DeleteProductByIdAsync(
+            int id,
+            [Service] FoodDeliveryDBContext context)
+        {
+            var profile = context.Profiles.Where(o => o.Id == id).FirstOrDefault();
+            if (profile != null)
+            {
+                context.Profiles.Remove(profile);
+                await context.SaveChangesAsync();
+            }
+
+
+            return await Task.FromResult(profile);
+        }
     }
 }
