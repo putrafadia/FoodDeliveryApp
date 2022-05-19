@@ -2,7 +2,7 @@
 {
     public record InputCourier
     (
-        string CourierName, 
+        //string CourierName, 
         string PhoneNumber, 
         int UserId
     

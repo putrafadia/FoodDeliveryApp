@@ -162,9 +162,12 @@ namespace UserQL.GraphQL
           InputCourier input,
           [Service] FoodDeliveryDBContext context)
         {
+            var user = context.Users.Where(o => o.Id == input.UserId).FirstOrDefault();
+            if (user == null) return new Courier();
+
             var courier = new Courier
             {
-                CourierName = input.CourierName,
+                CourierName = user.FullName,
                 PhoneNumber = input.PhoneNumber,
                 UserId = input.UserId,
             };

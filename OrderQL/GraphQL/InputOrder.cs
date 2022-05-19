@@ -6,7 +6,7 @@ namespace OrderQL.GraphQL
     (
         int? Id,
         string Code,
-        int UserId, 
+        //int UserId, 
         //int? CourierId, 
         //DateTime StartDate, 
         //DateTime? EndDate,

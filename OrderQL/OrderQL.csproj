@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="GraphQL\Mutation.cs~RF2c0224d.TMP" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Confluent.Kafka" Version="1.8.2" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
