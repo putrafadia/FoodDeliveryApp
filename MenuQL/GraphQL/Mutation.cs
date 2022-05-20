@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MenuQL.GraphQL
 {
@@ -74,7 +75,7 @@ namespace MenuQL.GraphQL
             int id,
             [Service] FoodDeliveryDBContext context)
         {
-            var product = context.Menus.Where(o => o.Id == id).FirstOrDefault();
+            var product = context.Menus.Where(o => o.Id == id).Include(u=>u.OrderDetails).FirstOrDefault();
             if (product != null)
             {
                 context.Menus.Remove(product);

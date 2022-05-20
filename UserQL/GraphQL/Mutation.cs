@@ -112,7 +112,7 @@ namespace UserQL.GraphQL
 
                     context.Users.Update(user);
                     await context.SaveChangesAsync();
-                    return await Task.FromResult(new User { Password = "Berhasil di ganti" });
+                    return await Task.FromResult(new User { Username = "Password",Password = "Berhasil di ganti" });
                 }
                 else
                 {
@@ -166,8 +166,9 @@ namespace UserQL.GraphQL
           [Service] FoodDeliveryDBContext context)
         {
             var user = context.Users.Where(o => o.Id == input.UserId).FirstOrDefault();
+            var userRole = context.UserRoles.Where(o => o.UserId == user.Id).FirstOrDefault();
             var userCourier = context.Couriers.Where(o => o.UserId == user.Id).FirstOrDefault();
-            if (user == null) return new Courier();
+            if (user == null || userRole.RoleId != 2) return new Courier();
             if(userCourier != null) return new Courier { CourierName = "Kurir Sudah ada", Id = 0,  UserId=0,PhoneNumber="sudah ada" };
 
             var courier = new Courier
