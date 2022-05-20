@@ -24,8 +24,8 @@ namespace UserQL.GraphQL
             RegisterUser input,
             [Service] FoodDeliveryDBContext context)
         {
-            var user = context.Users.Where(o=>o.Username == input.UserName).FirstOrDefault();
-            if(user != null)
+            var user = context.Users.Where(o => o.Username == input.UserName).FirstOrDefault();
+            if (user != null)
             {
                 return await Task.FromResult(new UserData());
             }
@@ -40,11 +40,11 @@ namespace UserQL.GraphQL
             var ret = context.Users.Add(newUser);
             await context.SaveChangesAsync();
 
-            return await Task.FromResult(new UserData { 
-                Id=newUser.Id,
-                Username=newUser.Username,
-                Email =newUser.Email,
-                FullName=newUser.FullName
+            return await Task.FromResult(new UserData {
+                Id = newUser.Id,
+                Username = newUser.Username,
+                Email = newUser.Email,
+                FullName = newUser.FullName
             });
         }
 
@@ -57,9 +57,9 @@ namespace UserQL.GraphQL
             var user = context.Users.Where(o => o.Username == input.Username).FirstOrDefault();
             if (user == null)
             {
-                return await Task.FromResult(new UserToken(null,null,"Username or password was invalid"));
+                return await Task.FromResult(new UserToken(null, null, "Username or password was invalid"));
             }
-            bool valid = BCrypt.Net.BCrypt.Verify(input.Password,user.Password);
+            bool valid = BCrypt.Net.BCrypt.Verify(input.Password, user.Password);
             if (valid)
             {
                 var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Value.Key));
@@ -71,8 +71,8 @@ namespace UserQL.GraphQL
                 var userRoles = context.UserRoles.Where(o => o.Id == user.Id).ToList();
                 foreach (var userRole in userRoles)
                 {
-                    var role = context.Roles.Where(o=>o.Id == userRole.RoleId).FirstOrDefault();
-                    if(role!=null)
+                    var role = context.Roles.Where(o => o.Id == userRole.RoleId).FirstOrDefault();
+                    if (role != null)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role.Name));
                     }
@@ -82,7 +82,7 @@ namespace UserQL.GraphQL
                 var jwtToken = new JwtSecurityToken(
                     issuer: tokenSettings.Value.Issuer,
                     audience: tokenSettings.Value.Audience,
-                    expires: expired,   
+                    expires: expired,
                     claims: claims,
                     signingCredentials: credentials
                 );
@@ -101,8 +101,8 @@ namespace UserQL.GraphQL
             ChangePassword input,
             [Service] FoodDeliveryDBContext context)
         {
-            
-            var user = context.Users.Where(o=>o.Username == input.Username).FirstOrDefault();
+
+            var user = context.Users.Where(o => o.Username == input.Username).FirstOrDefault();
             if (user != null)
             {
                 bool valid = BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password);
@@ -130,7 +130,8 @@ namespace UserQL.GraphQL
         int id,
         [Service] FoodDeliveryDBContext context)
         {
-            var user = context.Users.Where(o => o.Id == id).FirstOrDefault();
+            var user = context.Users.Where(o => o.Id == id).Include(p=>p.Profiles).Include(u=>u.UserRoles)
+                .Include(c=>c.Couriers).Include(o=>o.Orders).FirstOrDefault();
             if (user != null)
             {
                 context.Users.Remove(user);
@@ -145,6 +146,8 @@ namespace UserQL.GraphQL
           InputUserRole input,
           [Service] FoodDeliveryDBContext context)
         {
+            var user = context.UserRoles.Where(o => o.UserId == input.UserId).FirstOrDefault();
+            if (user != null) return new UserRole();
             var userRole = new UserRole
             {
                 UserId = input.UserId,
@@ -163,13 +166,16 @@ namespace UserQL.GraphQL
           [Service] FoodDeliveryDBContext context)
         {
             var user = context.Users.Where(o => o.Id == input.UserId).FirstOrDefault();
+            var userCourier = context.Couriers.Where(o => o.UserId == user.Id).FirstOrDefault();
             if (user == null) return new Courier();
+            if(userCourier != null) return new Courier { CourierName = "Kurir Sudah ada", Id = 0,  UserId=0,PhoneNumber="sudah ada" };
 
             var courier = new Courier
             {
                 CourierName = user.FullName,
                 PhoneNumber = input.PhoneNumber,
                 UserId = input.UserId,
+                Status = false,
             };
             var ret = context.Couriers.Add(courier);
             await context.SaveChangesAsync();
@@ -177,16 +183,39 @@ namespace UserQL.GraphQL
             return ret.Entity;
         }
 
+        [Authorize]
+        public async Task<Courier> DeleteCourierAsync(
+            int id,
+            [Service] FoodDeliveryDBContext context)
+        {
+            var courier = context.Couriers.Where(o => o.Id == id).Include(o=>o.Orders).FirstOrDefault();
+            if (courier != null)
+            {
+                context.Couriers.Remove(courier);
+                await context.SaveChangesAsync();
+            }
+
+            return await Task.FromResult(courier);
+        }
+
 
         //PROFILE
         //Add Profile
+        [Authorize]
         public async Task<Profile> AddProfileAsync(
            InputProfile input,
-           [Service] FoodDeliveryDBContext context)
+           [Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
         {
+            var userName = claimsPrincipal.Identity.Name;
+            var user = context.Users.Where(o => o.Username == userName).FirstOrDefault();
+            var profileUser = context.Profiles.Where(o => o.UserId == user.Id).FirstOrDefault();
+
+            if (profileUser != null) return new Profile{ Name = "Profil Sudah ada"};
+            if (user == null) return new Profile();
+
             var profile = new Profile
             {
-                UserId = input.UserId,
+                UserId = user.Id,
                 Name = input.Name,
                 Address = input.Address,
                 City = input.City,
@@ -199,11 +228,15 @@ namespace UserQL.GraphQL
         }
 
         //Update Profile
+        [Authorize]
         public async Task<Profile> UpdateProfileAsync(
             InputProfile input,
-            [Service] FoodDeliveryDBContext context)
+            [Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
         {
-            var profile = context.Profiles.Where(o => o.Id == input.Id).FirstOrDefault();
+            var userName = claimsPrincipal.Identity.Name;
+            var user = context.Users.Where(o => o.Username == userName).Include(p=>p.Profiles).FirstOrDefault();
+            var profile = context.Profiles.Where(o => o.UserId == user.Id).FirstOrDefault();
+
             if (profile != null)
             {
                 profile.Name = input.Name;
@@ -220,17 +253,18 @@ namespace UserQL.GraphQL
         }
 
         //Delete Profile
-        public async Task<Profile> DeleteProfileByIdAsync(
-            int id,
-            [Service] FoodDeliveryDBContext context)
+        [Authorize]
+        public async Task<Profile> DeleteMyProfileAsync(
+            [Service] FoodDeliveryDBContext context,ClaimsPrincipal claimsPrincipal)
         {
-            var profile = context.Profiles.Where(o => o.Id == id).FirstOrDefault();
+            var userName = claimsPrincipal.Identity.Name;
+            var user = context.Users.Where(o => o.Username == userName).Include(p => p.Profiles).FirstOrDefault();
+            var profile = context.Profiles.Where(o => o.UserId == user.Id).FirstOrDefault();
             if (profile != null)
             {
                 context.Profiles.Remove(profile);
                 await context.SaveChangesAsync();
             }
-
 
             return await Task.FromResult(profile);
         }

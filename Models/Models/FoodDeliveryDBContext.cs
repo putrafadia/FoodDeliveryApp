@@ -44,10 +44,12 @@ namespace Models.Models
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(50);
 
+                entity.Property(e => e.Status).HasColumnName("status");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Couriers)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Courier_User");
             });
 
@@ -80,7 +82,7 @@ namespace Models.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Order_User");
             });
 
@@ -91,13 +93,13 @@ namespace Models.Models
                 entity.HasOne(d => d.Food)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.FoodId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_FoodId");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_OrderId");
             });
 
@@ -146,13 +148,13 @@ namespace Models.Models
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Role");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_User");
             });
 

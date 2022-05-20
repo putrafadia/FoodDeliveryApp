@@ -74,24 +74,30 @@ namespace OrderQL.GraphQL
         {
             var order = context.Orders.Where(o => o.Id == input.Id).Include(d=>d.OrderDetails)
                .Include(c => c.User).FirstOrDefault();
+            var courier = context.Couriers.Where(o => o.Id == input.CourierId).FirstOrDefault();
 
-            if (order == null)
+            if (order != null)
             {
-                var transaction = context.Database.BeginTransaction();
-                try
+                if (courier.Status == false)
                 {
-                    order.CourierId = input.CourierId;
+                    var transaction = context.Database.BeginTransaction();
+                    try
+                    {
+                        courier.Status = true;
 
-                    var ret = context.Orders.Update(order);
-                    await context.SaveChangesAsync();
-                    transaction.Commit();
+                        order.CourierId = input.CourierId;
 
-                    return ret.Entity;
-                }
-                catch
-                {
-                    transaction.Rollback();
-                }
+                        var ret = context.Orders.Update(order);
+                        await context.SaveChangesAsync();
+                        transaction.Commit();
+
+                        return ret.Entity;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
+                }               
             }
             return new Order();
             
@@ -107,29 +113,33 @@ namespace OrderQL.GraphQL
             var user = context.Users.Where(o => o.Username == userName).FirstOrDefault();
 
             var order = context.Orders.Where(o => o.Id == input.Id).Include(d => d.OrderDetails)
-               .Include(c => c.User).FirstOrDefault();
+               .Include(c => c.User).ThenInclude(p => p.Orders).Where(s => s.Id == input.Id)
+                .Include(p => p.Courier).FirstOrDefault();
 
             var courier = context.Couriers.Where(o => o.UserId == user.Id).FirstOrDefault();
 
             if (order != null && order.CourierId == courier.Id)
             {
-                var transaction = context.Database.BeginTransaction();
-                try
+                if (input.Status == true)
                 {
-                    order.Status = input.Status;
-                    order.EndDate = DateTime.Now;
+                    var transaction = context.Database.BeginTransaction();
+                    try
+                    {
+                        order.Courier.Status = false;
+                        order.Status = input.Status;
+                        order.EndDate = DateTime.Now;
 
-                    var ret = context.Orders.Update(order);
-                    await context.SaveChangesAsync();
-                    transaction.Commit();
+                        var ret = context.Orders.Update(order);
+                        await context.SaveChangesAsync();
+                        transaction.Commit();
 
-                    return ret.Entity;
+                        return ret.Entity;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
                 }
-                catch
-                {
-                    transaction.Rollback();
-                }
-                
             }
             return new Order { CourierId = null, Code = "Null", Id = 0, UserId = 0  };          
         }
