@@ -99,8 +99,44 @@ namespace OrderQL.GraphQL
                     }
                 }               
             }
-            return new Order();
-            
+            return new Order();           
+        }
+
+        //Add Tracking Order by Courier
+        [Authorize(Roles = new[] { "COURIER" })]
+        public async Task<Order> AddTrackingOrderAsync(
+            AddTracking input,
+            [Service] FoodDeliveryDBContext context, ClaimsPrincipal claimsPrincipal)
+        {
+            var userName = claimsPrincipal.Identity.Name;
+            var user = context.Users.Where(o => o.Username == userName).FirstOrDefault();
+
+            var order = context.Orders.Where(o => o.Id == input.Id).Include(d => d.OrderDetails)
+               .Include(c => c.User).ThenInclude(p => p.Orders).Where(s => s.Id == input.Id)
+                .Include(p => p.Courier).FirstOrDefault();
+
+            var courier = context.Couriers.Where(o => o.UserId == user.Id).FirstOrDefault();
+
+            if (order != null && order.CourierId == courier.Id)
+            {
+                var transaction = context.Database.BeginTransaction();
+                try
+                {
+                    order.Latitude = input.Latitude;
+                    order.Longitude = input.Longitude;
+
+                    var ret = context.Orders.Update(order);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+
+                    return ret.Entity;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
+            }
+            return new Order { CourierId = null, Code = "Null", Id = 0, UserId = 0 };
         }
 
         //Update Order by Courier
@@ -151,10 +187,11 @@ namespace OrderQL.GraphQL
             [Service] FoodDeliveryDBContext context)
         {
             var order = context.Orders.Where(o => o.Id == id).Include(n=>n.OrderDetails).FirstOrDefault();
-            if (order != null)
+            if (order != null && order.Status == true)
             {
-                context.Orders.Remove(order);
-                await context.SaveChangesAsync();
+                //context.Orders.Remove(order);
+                //await context.SaveChangesAsync();
+                return new Order { CourierId = null, Code = "Terhapus", Id = 0, UserId = 0 };
             }
             else
             {

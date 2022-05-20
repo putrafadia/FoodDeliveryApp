@@ -72,6 +72,10 @@ namespace Models.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Latitude).HasMaxLength(50);
+
+                entity.Property(e => e.Longitude).HasMaxLength(50);
+
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Courier)

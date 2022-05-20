@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  menuql:
+    image: ${DOCKER_REGISTRY-}menuql
+    build:
+      context: .
+      dockerfile: MenuQL/Dockerfile
+
+  orderql:
+    image: ${DOCKER_REGISTRY-}orderql
+    build:
+      context: .
+      dockerfile: OrderQL/Dockerfile
+
+  userql:
+    image: ${DOCKER_REGISTRY-}userql
+    build:
+      context: .
+      dockerfile: UserQL/Dockerfile
+
