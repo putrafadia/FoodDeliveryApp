@@ -5,7 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using OrderQL.GraphQL;
 
-var builder = WebApplication.CreateBuilder(args);
+// set ContentRootPath so that builder.Host.UseWindowsService() doesn 't crash when running as a service
+var webApplicationOptions = new WebApplicationOptions()
+{
+    ContentRootPath = AppContext.BaseDirectory,
+    Args = args
+};
+var builder = WebApplication.CreateBuilder(webApplicationOptions);
 
 var conString = builder.Configuration.GetConnectionString("MyDatabase");
 builder.Services.AddDbContext<FoodDeliveryDBContext>(options =>
@@ -38,6 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
 
     });
+
+builder.WebHost.UseUrls("http://orderservice.local:{ServicePort}");
 
 var app = builder.Build();
 

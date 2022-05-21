@@ -1,21 +1,71 @@
 version: '3.4'
 
 services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - ~/apps/mssql/data:/var/lib/mssqlql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Str0ng@Passw0rd
+
   menuql:
     image: ${DOCKER_REGISTRY-}menuql
+    ports:
+     - "8084:443"
+     - "8085:80"
+    extra_hosts:
+     - "host.docker.internal:host-gateway"
+    volumes:
+     - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+     - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     build:
       context: .
       dockerfile: MenuQL/Dockerfile
+    depends_on:
+     - mssql
+    networks:
+     - app-tier
 
   orderql:
     image: ${DOCKER_REGISTRY-}orderql
+    ports:
+     - "8082:443"
+     - "8083:80"
+    extra_hosts:
+     - "host.docker.internal:host-gateway"
+    volumes:
+     - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+     - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     build:
       context: .
       dockerfile: OrderQL/Dockerfile
+    depends_on:
+     - mssql
+    networks:
+     - app-tier
 
   userql:
     image: ${DOCKER_REGISTRY-}userql
+    ports:
+     - "8080:443"
+     - "8081:80"
+    extra_hosts:
+     - "host.docker.internal:host-gateway"
+    volumes:
+     - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+     - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     build:
       context: .
       dockerfile: UserQL/Dockerfile
+    depends_on:
+     - mssql
+    networks:
+     - app-tier
+
+networks:
+  app-tier:
+    driver: bridge
 

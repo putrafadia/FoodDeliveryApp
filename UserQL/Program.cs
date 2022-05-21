@@ -5,19 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using UserQL.GraphQL;
 using Models.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+// set ContentRootPath so that builder.Host.UseWindowsService() doesn 't crash when running as a service
+var webApplicationOptions = new WebApplicationOptions() { 
+    ContentRootPath = AppContext.BaseDirectory,
+    Args = args
+};
+var builder = WebApplication.CreateBuilder(webApplicationOptions);
 
 var conString = builder.Configuration.GetConnectionString("MyDatabase");
 builder.Services.AddDbContext<FoodDeliveryDBContext>(options =>
      options.UseSqlServer(conString)
 );
-
-// graphql
-builder.Services
-    .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .AddMutationType<Mutation>()
-    .AddAuthorization();
 
 builder.Services.AddControllers();
 // DI Dependency Injection
@@ -39,7 +37,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
     });
 
+// graphql
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddAuthorization();
 
+builder.WebHost.UseUrls("http://userservice.local:{ServicePort}");
+//builder.Host.UseWindowsService();
 
 var app = builder.Build();
 

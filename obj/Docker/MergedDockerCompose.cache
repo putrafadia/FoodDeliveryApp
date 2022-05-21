@@ -1,15 +1,90 @@
+networks:
+  app-tier:
+    driver: bridge
 services:
   menuql:
     build:
       context: E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp
       dockerfile: MenuQL/Dockerfile
+    depends_on:
+      mssql:
+        condition: service_started
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: https://+:443;http://+:80
+    extra_hosts:
+      host.docker.internal: host-gateway
     image: menuql
+    networks:
+      app-tier: {}
     ports:
+    - published: 8085
+      target: 80
     - target: 80
+    - published: 8084
+      target: 443
     - target: 443
     volumes:
     - C:\Users\ahmad saputra\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\ahmad saputra\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  mssql:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Str0ng@Passw0rd
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+    - published: 1433
+      target: 1433
+    volumes:
+    - C:\Users\ahmad saputra\apps\mssql\data:/var/lib/mssqlql/data:rw
+  orderql:
+    build:
+      context: E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp
+      dockerfile: OrderQL/Dockerfile
+    depends_on:
+      mssql:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    extra_hosts:
+      host.docker.internal: host-gateway
+    image: orderql
+    networks:
+      app-tier: {}
+    ports:
+    - published: 8083
+      target: 80
+    - target: 80
+    - published: 8082
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\ahmad saputra\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\ahmad saputra\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  userql:
+    build:
+      context: E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp
+      dockerfile: UserQL/Dockerfile
+    depends_on:
+      mssql:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    extra_hosts:
+      host.docker.internal: host-gateway
+    image: userql
+    networks:
+      app-tier: {}
+    ports:
+    - published: 8081
+      target: 80
+    - target: 80
+    - published: 8080
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\ahmad saputra\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\ahmad saputra\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
 version: '3.4'

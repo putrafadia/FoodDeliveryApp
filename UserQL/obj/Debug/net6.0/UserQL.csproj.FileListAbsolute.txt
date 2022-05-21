@@ -166,3 +166,6 @@ E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\obj\Debug\net6.
 E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\obj\Debug\net6.0\UserQL.pdb
 E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\obj\Debug\net6.0\UserQL.genruntimeconfig.cache
 E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\obj\Debug\net6.0\ref\UserQL.dll
+E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\bin\Debug\net6.0\Microsoft.Extensions.Hosting.WindowsServices.dll
+E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\bin\Debug\net6.0\System.ServiceProcess.ServiceController.dll
+E:\belajar\bootcamp\final\FoodDeliveryApp\FoodDeliveryApp\UserQL\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.ServiceProcess.ServiceController.dll
